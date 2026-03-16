@@ -21,14 +21,14 @@
       <div class="row g-3">
         <div class="col-12 mb-2">
           <label class="form-label fw-bold">Search College Name (Optional)</label>
-          <input type="text" name="search_query" class="form-control" placeholder="Search by name... e.g. Anna University">
+          <input type="text" name="search_query" class="form-control" placeholder="Search by name... e.g. Anna University" value="{{ form_data.get('search_query', '') }}">
         </div>
         
         <!-- Cutoff Field -->
         <div class="col-md-3">
           <label class="form-label fw-bold">Cut-off Mark</label>
           <input type="number" name="cutoff" step="0.5" min="0" max="200"
-                 class="form-control" placeholder="e.g. 175.5" required>
+                 class="form-control" placeholder="e.g. 175.5" required value="{{ form_data.get('cutoff', '') }}">
         </div>
         
         <!-- Course Selection -->
@@ -36,24 +36,24 @@
           <label class="form-label fw-bold">Course</label>
           <select name="course" class="form-select select2" required>
             {% for c in courses %}
-              <option value="{{ c }}">{{ c }}</option>
+              <option value="{{ c }}" {% if form_data.get('course') == c %}selected{% endif %}>{{ c }}</option>
             {% endfor %}
           </select>
         </div>
         
-        <!-- Category Selection -->
         <div class="col-md-3">
           <label class="form-label fw-bold">Category</label>
           <select name="category" class="form-select" required>
-            <option value="OC" {% if current_user.category == 'OC' %}selected{% endif %}>OC</option>
-            <option value="BC" {% if current_user.category == 'BC' %}selected{% endif %}>BC</option>
-            <option value="BCM" {% if current_user.category == 'BCM' %}selected{% endif %}>BCM</option>
-            <option value="MBC" {% if current_user.category == 'MBC' %}selected{% endif %}>MBC</option>
-            <option value="SC" {% if current_user.category == 'SC' %}selected{% endif %}>SC</option>
-            <option value="SCA" {% if current_user.category == 'SCA' %}selected{% endif %}>SCA</option>
-            <option value="ST" {% if current_user.category == 'ST' %}selected{% endif %}>ST</option>
+            {% set sel_cat = form_data.get('category', current_user.category) %}
+            <option value="OC" {% if sel_cat == 'OC' %}selected{% endif %}>OC</option>
+            <option value="BC" {% if sel_cat == 'BC' %}selected{% endif %}>BC</option>
+            <option value="BCM" {% if sel_cat == 'BCM' %}selected{% endif %}>BCM</option>
+            <option value="MBC" {% if sel_cat == 'MBC' %}selected{% endif %}>MBC</option>
+            <option value="SC" {% if sel_cat == 'SC' %}selected{% endif %}>SC</option>
+            <option value="SCA" {% if sel_cat == 'SCA' %}selected{% endif %}>SCA</option>
+            <option value="ST" {% if sel_cat == 'ST' %}selected{% endif %}>ST</option>
           </select>
-          <div class="form-text">Defaults to your requested category.</div>
+          <div class="form-text">Defaults to your category.</div>
         </div>
         
         <!-- District Selection -->
@@ -61,7 +61,7 @@
           <label class="form-label fw-bold">District</label>
           <select name="district" class="form-select select2" required>
             {% for d in districts %}
-              <option value="{{ d }}">{{ d }}</option>
+              <option value="{{ d }}" {% if form_data.get('district') == d %}selected{% endif %}>{{ d }}</option>
             {% endfor %}
           </select>
         </div>

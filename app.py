@@ -108,10 +108,9 @@ def index():
 
         results = query.order_by(College.cutoff_mark.desc()).all()
 
-        if not results:
-            flash('No colleges found. Try changing your preferences.')
+    form_data = request.form if request.method == 'POST' else {}
 
-    return render_template('index.html', results=results, courses=courses, districts=districts)
+    return render_template('index.html', results=results, courses=courses, districts=districts, form_data=form_data)
 
 if __name__ == '__main__':
     with app.app_context():
