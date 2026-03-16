@@ -113,7 +113,8 @@ def index():
 
     return render_template('index.html', results=results, courses=courses, districts=districts, form_data=form_data, show_results=show_results)
 
+with app.app_context():
+    db.create_all()
+
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True, port=5001)
