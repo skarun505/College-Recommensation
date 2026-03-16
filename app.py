@@ -1,4 +1,3 @@
-import os
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
@@ -6,11 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key-super-secret'
-
-# Absolute path for the database file
-basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
@@ -118,15 +113,7 @@ def index():
 
     return render_template('index.html', results=results, courses=courses, districts=districts, form_data=form_data, show_results=show_results)
 
-# Function to create tables at start - wrapped for robustness
-def init_db():
-    try:
-        with app.app_context():
-            db.create_all()
-    except Exception as e:
-        print(f"Database initialization skipped or failed: {e}")
-
-init_db()
-
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True, port=5001)

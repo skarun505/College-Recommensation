@@ -4,5 +4,5 @@ __pycache__/
 instance/
 .pytest_cache/
 .DS_Store
-# *.db removed to allow deployment of initial data
+*.db
 .env
